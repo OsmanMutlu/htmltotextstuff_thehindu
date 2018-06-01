@@ -14,12 +14,11 @@ except FileNotFoundError:
 
 match = re.search(r"\/([^\/]*)$", filename)
 if match:
-    link = re.sub(r"__", r"://", match.group(1))
+    link = re.sub(r"___", r"://", match.group(1))
 else:
-    link = re.sub(r"__", r"://", filename)
+    link = re.sub(r"___", r"://", filename)
 
 link = re.sub(r"_", r"/", link)
-link = re.sub(r"\.txt$", r".cms", link)
 lines.append("url : " + link)
 
 with codecs.open(filename, "w", "utf-8") as f:

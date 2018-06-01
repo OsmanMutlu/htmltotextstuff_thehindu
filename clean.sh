@@ -2,22 +2,19 @@
 #Takes a full path of the html_dir without slash / charachter at the end
 HTML_DIR=$1
 cd $HTML_DIR
-if [ ! -d ../newstext ]; then
- mkdir ../newstext
- mkdir ../newstext/empties
+if [ ! -d ../random_boilerpipe_newstext ]; then
+ mkdir ../random_boilerpipe_newstext
+ mkdir ../random_boilerpipe_newstext/empties
 fi
 for file in http*
 do
- if [ ! -f ../newstext/$file ]; then
-  tmp=$(echo "${file%.cms}.txt")
-  python3 /home/osman/Dropbox/work/htmltotextstuff_timesofindia/gettext.py $file
-  python3 /home/osman/Dropbox/work/htmltotextstuff_timesofindia/deletesamesubstr.py ../newstext/$tmp
-  python3 /home/osman/Dropbox/work/htmltotextstuff_timesofindia/deletecertainstr.py ../newstext/$tmp
-  python3 /home/osman/Dropbox/work/htmltotextstuff_timesofindia/deletecertainstr2.py ../newstext/$tmp
-  python3 /home/osman/Dropbox/work/htmltotextstuff_timesofindia/addnewstime.py ../newstext/$tmp
-  python3 /home/osman/Dropbox/work/htmltotextstuff_timesofindia/addnewslink.py ../newstext/$tmp
+ if [ ! -f ../random_boilerpipe_newstext/$file ]; then
+#  tmp=$(echo "${file%.cms}.txt")
+  python /ai/work/emw/htmltotextstuff_timesofindia/boilerpipe_gettext.py $file
+  python3 /ai/work/emw/htmltotextstuff_thehindu/deletecertainstr.py ../random_boilerpipe_newstext/$file
+  python3 /ai/work/emw/htmltotextstuff_thehindu/addnewstime.py ../random_boilerpipe_newstext/$file
+  python3 /ai/work/emw/htmltotextstuff_thehindu/addnewslink.py ../random_boilerpipe_newstext/$file
   echo "Finished $file"
  fi
 done
-ls | grep -v "https__timesofindia" | grep "https" | sed -E "s/\d+\s*http/http/g" > ../newstext/redirected.txt
 exit 0
